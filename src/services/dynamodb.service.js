@@ -1,5 +1,3 @@
-class DynamoDBService{
-  constructor(){}
-}
+class DynamoDBService {}
 
 module.exports = DynamoDBService;

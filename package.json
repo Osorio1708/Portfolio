@@ -4,8 +4,9 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js",
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "debug": "nodemon --inspect src/server.js",
     "lint": "eslint"
   },
   "repository": {
@@ -21,7 +22,9 @@
   "homepage": "https://github.com/Osorio1708/Portfolio#readme",
   "dependencies": {
     "dotenv": "^16.0.1",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "joi": "^17.6.0",
+    "twitter": "^1.7.1"
   },
   "devDependencies": {
     "eslint": "^8.16.0",
