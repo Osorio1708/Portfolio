@@ -8,7 +8,24 @@ const PortfolioService = require('../services/portfolio.service');
 const portfolioService = new PortfolioService();
 const { ResponseBase } = require('../models/response.model');
 
+const TwitterService = require('../services/twitter.service');
+const twitterService = new TwitterService();
+
+const RenderPortfolioView = require('../views/renderPortfolio.view');
+const renderPortfolio = new RenderPortfolioView();
+
 const router = express.Router();
+
+router.get('/print/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    renderPortfolio.portfolio = await portfolioService.getPortfolioById(id);
+    renderPortfolio.twits = await twitterService.getTimeline();
+    res.status(200).send(renderPortfolio.sendScreen());
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.get('/list', async (req, res, next) => {
   try {
