@@ -39,14 +39,8 @@ class DynamoDBService {
       });
   }
   async putPortfolio(portfolio) {
-    const list = await this.getAllPortfolios();
-    let flag = false;
-    for(let i = 0; i<list.Items.length;i++){
-      if(list.Items[i].id === portfolio.id){
-        flag = true;
-      }
-    }
-    if(flag){
+    let flag = this.portfolioExists(portfolio.id);
+    if (flag) {
       const params = {
         TableName: this.tableName,
         Item: portfolio,
@@ -57,19 +51,34 @@ class DynamoDBService {
         .catch((err) => {
           throw err;
         });
-        return flag;
+      return flag;
     }
     return flag;
   }
+
   async deletePorfolioById(id) {
-    const params = {
-      TableName: this.tableName,
-      Key: {
-        id,
-      },
-    };
-    return await this.dynamoClient.delete(params).promise();
+    let flag = this.portfolioExists(id);
+    if(flag){
+      const params = {
+        TableName: this.tableName,
+        Key: {
+          id,
+        },
+      };
+      await this.dynamoClient.delete(params).promise();
+      return flag;
+    }
+    return flag;
+  }
+
+  async portfolioExists(id) {
+    const list = await this.getAllPortfolios();
+    for (let i = 0; i < list.Items.length; i++) {
+      if (list.Items[i].id === id) {
+        return true;
+      }
+    }
+    return false;
   }
 }
-
 module.exports = DynamoDBService;
