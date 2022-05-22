@@ -13,13 +13,10 @@ app.get('/', (req, res) => {
 
 routerApi(app);
 
-// Catch error 404
 app.use(notFoundHandler);
-// Errors middleware
 app.use(logError);
 app.use(wrapError);
 app.use(errorHandler);
-
 
 app.listen(port, () => {
   console.log('Server is running in port: ' +  port);
