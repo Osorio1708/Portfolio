@@ -15,7 +15,13 @@ class DynamoDBService {
     const params = {
       TableName: this.tableName,
     };
-    return await this.dynamoClient.scan(params).promise();
+    return await this.dynamoClient
+      .scan(params)
+      .promise()
+      .then()
+      .catch((err) => {
+        throw err;
+      });
   }
   async getPortfolioById(id) {
     const params = {
@@ -24,7 +30,13 @@ class DynamoDBService {
         id,
       },
     };
-    return await this.dynamoClient.get(params).promise();
+    return await this.dynamoClient
+      .get(params)
+      .promise()
+      .then()
+      .catch((err) => {
+        throw err;
+      });
   }
   async postPortfolio(portfolio) {
     const params = {
@@ -58,21 +70,31 @@ class DynamoDBService {
 
   async deletePorfolioById(id) {
     let flag = this.portfolioExists(id);
-    if(flag){
+    if (flag) {
       const params = {
         TableName: this.tableName,
         Key: {
           id,
         },
       };
-      await this.dynamoClient.delete(params).promise();
+      await this.dynamoClient
+        .delete(params)
+        .promise()
+        .then()
+        .catch((err) => {
+          throw err;
+        });
       return flag;
     }
     return flag;
   }
 
   async portfolioExists(id) {
-    const list = await this.getAllPortfolios();
+    const list = await this.getAllPortfolios()
+      .then()
+      .catch((err) => {
+        throw err;
+      });
     for (let i = 0; i < list.Items.length; i++) {
       if (list.Items[i].id === id) {
         return true;

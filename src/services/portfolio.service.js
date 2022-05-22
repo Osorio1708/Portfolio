@@ -5,24 +5,25 @@ class PortfolioService {
     this.dynamoDBService = new DynamodbService();
   }
   async postPortfolio(data) {
-    try {
-      data.id = uuid.v4();
-      await this.dynamoDBService.postPortfolio(data);
-      return data;
-    } catch (err) {
-      //
-    }
+    data.id = uuid.v4();
+    await this.dynamoDBService
+      .postPortfolio(data)
+      .then()
+      .catch((err) => {
+        throw err;
+      });
+    return data;
   }
 
   async putPortfolio(data) {
-    try {
-      const response = await this.dynamoDBService.putPortfolio(data);
-      return response;
-    } catch (err) {
-      //
-    }
+    const response = await this.dynamoDBService
+      .putPortfolio(data)
+      .then()
+      .catch((err) => {
+        throw err;
+      });
+    return response;
   }
-
 
   async getPorfolioList() {
     const list = [];
@@ -42,28 +43,25 @@ class PortfolioService {
   }
 
   async getPortfolioById(id) {
-    try {
-      const portfolio = await this.dynamoDBService
-        .getPortfolioById(id)
-        .then((element) => {
-          return element;
-        })
-        .catch((err) => {
-          throw err;
-        });
-      return portfolio;
-    } catch (err) {
-      //
-    }
+    const portfolio = await this.dynamoDBService
+      .getPortfolioById(id)
+      .then((element) => {
+        return element;
+      })
+      .catch((err) => {
+        throw err;
+      });
+    return portfolio;
   }
 
   async deletePortfolio(id) {
-    try {
-      await this.dynamoDBService.deletePorfolioById(id);
-      return id;
-    } catch (err) {
-      //
-    }
+    await this.dynamoDBService
+      .deletePorfolioById(id)
+      .then()
+      .catch((err) => {
+        throw err;
+      });
+    return id;
   }
 }
 
