@@ -9,7 +9,7 @@ class DynamoDBService {
       secretAccessKey: config.dynamoDB.secretAccessKey,
     });
     this.dynamoClient = new AWS.DynamoDB.DocumentClient();
-    this.tableNamme = 'portfolio';
+    this.tableName = 'portfolio';
   }
   async getAllPortfolios() {
     const params = {
@@ -39,17 +39,27 @@ class DynamoDBService {
       });
   }
   async putPortfolio(portfolio) {
-    const list = this.getAllPortfolios();
-    const params = {
-      TableName: this.tableName,
-      Item: portfolio,
-    };
-    await this.dynamoClient.put
-      .put(params)
-      .promise()
-      .catch((err) => {
-        throw err;
-      });
+    const list = await this.getAllPortfolios();
+    let flag = false;
+    for(let i = 0; i<list.Items.length;i++){
+      if(list.Items[i].id === portfolio.id){
+        flag = true;
+      }
+    }
+    if(flag){
+      const params = {
+        TableName: this.tableName,
+        Item: portfolio,
+      };
+      await this.dynamoClient.put
+        .put(params)
+        .promise()
+        .catch((err) => {
+          throw err;
+        });
+        return flag;
+    }
+    return flag;
   }
   async deletePorfolioById(id) {
     const params = {

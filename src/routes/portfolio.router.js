@@ -4,14 +4,64 @@ const {
   updatePortfolioSchema,
   createPortfolioSchema,
 } = require('../schemas/portfolio.schema');
+const PortfolioService = require('../services/portfolio.service');
+const portfolioService = new PortfolioService();
+const { ResponseBase } = require('../models/response.model');
+
 const router = express.Router();
 
-router.get('/list', (req, res) => {
-
+router.get('/list', async (req, res) => {
+  const response = new ResponseBase();
+  const data = await portfolioService.getPorfolioList();
+  response.message = 'Get Portfolio List'
+  response.statusCode = 200;
+  response.data = data;
+  res.json(response);
 });
-router.get('/:id', (req, res, next) => {});
-router.post('/', validationHandler(createPortfolioSchema), (req, res) => {});
-router.put('/:id',validationHandler(updatePortfolioSchema), (req, res) => {});
-router.delete('/:id', (req, res) => {});
+
+router.get('/:id', async (req, res, next) => {
+  const { id }  = req.params;
+  const response = new ResponseBase();
+  const data = await portfolioService.getPortfolioById(id);
+  response.message = 'Get Portfolio';
+  response.statusCode = 200;
+  response.data = data;
+  res.json(response);
+});
+
+router.post('/', validationHandler(createPortfolioSchema), async (req, res) => {
+  const data = await portfolioService.savePortfolio(req.body);
+  const response = new ResponseBase();
+  response.message = 'Portfolio was saved succesfuly'
+  response.statusCode = 200;
+  response.data = data;
+  res.json(response);
+});
+
+router.put('/', validationHandler(updatePortfolioSchema), async (req, res) => {
+  const response = new ResponseBase();
+  const data = await portfolioService.putPortfolio(req.body);
+  if(data){
+    response.message = 'Portfolio was updated successfuly'
+    response.statusCode = 200;
+    response.data = req.body;
+    res.json(response);
+  }else{
+    response.message = 'Portfolio doesnt exist';
+    response.statusCode = 401;
+    response.data = req.body.id;
+    res.status(401).json(response);
+  }
+});
+
+router.delete('/:id', async (req, res) => {
+  const { id }  = req.params;
+  const response = new ResponseBase();
+  const data = await portfolioService.deletePortfolio(id);
+  response.message = 'Portfolio was updated successfuly'
+  response.statusCode = 200;
+  response.data = data;
+  res.json(response);
+});
 
 module.exports = router;
