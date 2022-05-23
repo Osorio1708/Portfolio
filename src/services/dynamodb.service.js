@@ -57,7 +57,7 @@ class DynamoDBService {
         TableName: this.tableName,
         Item: portfolio,
       };
-      await this.dynamoClient.put
+      await this.dynamoClient
         .put(params)
         .promise()
         .catch((err) => {

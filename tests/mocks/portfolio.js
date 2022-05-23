@@ -14,6 +14,6 @@ const postPortfolioMock = {
   experience_03: "I consider myself as a happy, spontaneous and dedicated person. I always want to get new challenges because that will help me with my professional growth. I am also looking to be the best version of myself in order to reach all my goals."
 }
 
-const getPorfolioByIdMock = "0e1b304e-4c76-47a2-91d8-ed995bf3f42d";
+const getPorfolioByIdMock = "8f2d5eca-6533-4344-89c2-d4e722248ed9";
 
 module.exports = {postPortfolioMock, getPorfolioByIdMock}
