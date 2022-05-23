@@ -7,6 +7,7 @@
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
     "debug": "nodemon --inspect src/server.js",
+    "test": "jest",
     "lint": "eslint"
   },
   "repository": {
@@ -33,7 +34,9 @@
     "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^28.1.0",
     "nodemon": "^2.0.16",
-    "prettier": "^2.6.2"
+    "prettier": "^2.6.2",
+    "supertest": "^6.2.3"
   }
 }

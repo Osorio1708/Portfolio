@@ -66,7 +66,7 @@ router.post(
   validationHandler(createPortfolioSchema),
   async (req, res, next) => {
     try {
-      const data = await portfolioService.savePortfolio(req.body);
+      const data = await portfolioService.postPortfolio(req.body);
       const response = new ResponseBase();
       response.message = 'Portfolio was saved succesfuly';
       response.statusCode = 200;
