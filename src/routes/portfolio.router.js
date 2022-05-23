@@ -14,6 +14,8 @@ const twitterService = new TwitterService();
 const RenderPortfolioView = require('../views/renderPortfolio.view');
 const renderPortfolio = new RenderPortfolioView();
 
+const { checkApiKey } = require('../middlewares/auth.handler');
+
 const router = express.Router();
 
 router.get('/print/:id', async (req, res, next) => {
@@ -27,7 +29,7 @@ router.get('/print/:id', async (req, res, next) => {
   }
 });
 
-router.get('/list', async (req, res, next) => {
+router.get('/list', checkApiKey, async (req, res, next) => {
   try {
     const response = new ResponseBase();
     const data = await portfolioService.getPorfolioList();
@@ -40,7 +42,7 @@ router.get('/list', async (req, res, next) => {
   }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', checkApiKey, async (req, res, next) => {
   try {
     const { id } = req.params;
     const response = new ResponseBase();
@@ -64,6 +66,7 @@ router.get('/:id', async (req, res, next) => {
 router.post(
   '/',
   validationHandler(createPortfolioSchema),
+  checkApiKey,
   async (req, res, next) => {
     try {
       const data = await portfolioService.postPortfolio(req.body);
@@ -81,6 +84,7 @@ router.post(
 router.put(
   '/',
   validationHandler(updatePortfolioSchema),
+  checkApiKey,
   async (req, res, next) => {
     try {
       const response = new ResponseBase();
@@ -102,7 +106,7 @@ router.put(
   }
 );
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', checkApiKey, async (req, res, next) => {
   try {
     const { id } = req.params;
     const response = new ResponseBase();

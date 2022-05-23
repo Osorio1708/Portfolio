@@ -7,7 +7,9 @@ const twitterService = new TwitterService();
 const { ResponseBase } = require('../models/response.model');
 const responseBase = new ResponseBase();
 
-router.get('/twits', async (req, res, next) => {
+const { checkApiKey } = require('../middlewares/auth.handler');
+
+router.get('/twits', checkApiKey, async (req, res, next) => {
   try {
     responseBase.data = await twitterService.getTimeline();
     responseBase.message = 'Get TimeLine from twitter';
